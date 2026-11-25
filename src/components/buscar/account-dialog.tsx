@@ -16,7 +16,7 @@ function CodeSelect({ required = false }: { required?: boolean }) {
   return <select className="acc-input" aria-label="Country code" required={required} defaultValue="254">{countryCodes.map(c => <option key={c} value={c}>+{c}</option>)}</select>;
 }
 
-export function AccountDialog({ open, onOpenChange, onGuest }: { open: boolean; onOpenChange: (o: boolean) => void; onGuest: () => void }) {
+export function AccountDialog({ open, onOpenChange, onGuest, onSignedIn }: { open: boolean; onOpenChange: (o: boolean) => void; onGuest: () => void; onSignedIn: () => void }) {
   const [view, setView] = useState<View>('signin');
   const [name, setName] = useState('');
   const close = (o: boolean) => { onOpenChange(o); if (!o) setTimeout(() => setView('signin'), 200); };
@@ -27,11 +27,11 @@ export function AccountDialog({ open, onOpenChange, onGuest }: { open: boolean; 
     const c = f.querySelector('#su-confirm') as HTMLInputElement;
     c.setCustomValidity(p === c.value ? '' : 'Passwords do not match');
     if (!f.reportValidity()) return;
-    setView('created');
+    close(false); onSignedIn();
   };
   return <Dialog open={open} onOpenChange={close}><DialogContent className="account-dialog">
     <img src={logo.url} alt="BUSCAR logo" className="acc-logo"/>
-    {view === 'signin' && <form onSubmit={e => { e.preventDefault(); close(false); }} className="acc-form">
+    {view === 'signin' && <form onSubmit={e => { e.preventDefault(); close(false); onSignedIn(); }} className="acc-form">
       <DialogTitle className="acc-title upper">Sign in</DialogTitle><DialogDescription className="sr-only">Sign in to your BUSCAR account</DialogDescription>
       <div className="acc-row"><label><span>Code</span><CodeSelect/></label><label className="grow"><span>Phone number</span><input className="acc-input" type="tel" inputMode="numeric" pattern="[0-9]{9}" placeholder="700000000" required/></label></div>
       <label><span>Password</span><Password id="si-pass" lock/></label>

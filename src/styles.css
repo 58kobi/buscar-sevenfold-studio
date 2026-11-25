@@ -306,3 +306,29 @@
 .acc-foot { text-align: center; font-size: 14px; }
 .acc-done { align-items: center; text-align: center; } .acc-done-icon { width: 56px; height: 56px; color: var(--primary); }
 @media (max-width: 420px) { .acc-grid { grid-template-columns: 1fr; } }
+
+.wide-nav,.wide-tools,.wide-hero { display: none; }
+@media (min-width: 1200px) {
+  .site-header { height: 80px; }
+  .header-inner { grid-template-columns: auto 1fr auto; gap: 24px; }
+  .desktop-nav,.header-tools,.intro { display: none !important; }
+  .wide-nav { display: flex; justify-content: center; gap: 24px; }
+  .wide-nav button,.wide-tools .support { background: none; border: 0; font-size: 15px; font-weight: 600; color: var(--foreground); white-space: nowrap; }
+  .wide-nav button:hover,.wide-tools .support:hover { color: var(--brand); }
+  .wide-tools { display: flex; align-items: center; gap: 18px; }
+  .wide-tools .flag { font-size: 22px; line-height: 1; }
+  .wide-tools .support { display: flex; align-items: center; gap: 6px; } .wide-tools .support svg { width: 16px; height: 16px; }
+  .user-wrap { position: relative; }
+  .user-btn { background: none; border: 2px solid transparent; padding: 4px; display: grid; place-items: center; color: var(--foreground); }
+  .user-btn[aria-expanded="true"] { border-color: var(--ring); }
+  .user-menu { position: absolute; right: -14px; top: calc(100% + 12px); width: 240px; background: var(--background); border: 1px solid var(--border); box-shadow: 0 8px 24px -8px color-mix(in oklab, var(--foreground) 25%, transparent); padding: 8px 0; z-index: 50; display: flex; flex-direction: column; }
+  .user-menu button { background: none; border: 0; text-align: left; padding: 6px 12px; font-size: 15px; color: var(--foreground); }
+  .user-menu button:hover { background: var(--muted); }
+  .user-menu hr { border: 0; border-top: 1px solid var(--border); margin: 8px 0; }
+  .user-menu .logout { color: var(--brand); }
+  .wide-hero { display: block; position: relative; height: 420px; overflow: hidden; }
+  .wide-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: left top; opacity: 0; transition: opacity .8s ease; }
+  .wide-hero img.on { opacity: 1; }
+  .search-section { margin-top: -96px; position: relative; z-index: 5; padding-top: 0; }
+  .wide-hero + .search-section .container-shell { width: min(1480px, calc(100% - 400px)); }
+}
