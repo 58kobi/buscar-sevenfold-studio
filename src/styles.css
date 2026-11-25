@@ -260,3 +260,9 @@
   .chat-button { right: 16px; bottom: 81px; width: 49px; height: 49px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+.eagle{object-fit:contain;border-radius:4px}
+.travler-img{height:22px;width:auto;display:inline-block;vertical-align:middle;mix-blend-mode:multiply}
+.travler-img-large{height:44px}
+.site-footer .travler-img{mix-blend-mode:normal;background:var(--background);border-radius:6px;padding:2px 6px}
+.travel-slide::after,.travel-copy{display:none!important}.travel-slide{height:auto!important;aspect-ratio:698/284}.travel-slide img{object-fit:cover;object-position:center!important}
