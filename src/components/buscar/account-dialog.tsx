@@ -26,8 +26,9 @@ export function AccountDialog({ open, onOpenChange, onGuest, onSignedIn }: { ope
     const p = (f.querySelector('#su-pass') as HTMLInputElement).value;
     const c = f.querySelector('#su-confirm') as HTMLInputElement;
     c.setCustomValidity(p === c.value ? '' : 'Passwords do not match');
+    const n = f.querySelector('input') as HTMLInputElement; n.setCustomValidity(name.trim() ? '' : 'Please enter your name');
     if (!f.reportValidity()) return;
-    close(false); onSignedIn();
+    setView('created'); onSignedIn();
   };
   return <Dialog open={open} onOpenChange={close}><DialogContent className="account-dialog">
     <img decoding="async" src={logo.url} alt="BUSCAR logo" className="acc-logo"/>
@@ -55,8 +56,8 @@ export function AccountDialog({ open, onOpenChange, onGuest, onSignedIn }: { ope
     {view === 'created' && <div className="acc-form acc-done">
       <CircleCheck className="acc-done-icon"/>
       <DialogTitle className="acc-title">Account created</DialogTitle>
-      <DialogDescription>Welcome to BUSCAR{name ? `, ${name.split(' ')[0]}` : ''}! You can now sign in with your phone number and password.</DialogDescription>
-      <Button className="acc-primary" onClick={() => setView('signin')}>Sign in</Button>
+      <DialogDescription>Welcome to BUSCAR{name ? `, ${name.split(' ')[0]}` : ''}! Your account was created successfully and you are now signed in.</DialogDescription>
+      <Button className="acc-primary" onClick={() => close(false)}>Continue</Button>
     </div>}
   </DialogContent></Dialog>;
 }
