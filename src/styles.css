@@ -332,3 +332,4 @@
   .search-section { margin-top: -96px; position: relative; z-index: 5; padding-top: 0; }
   .wide-hero + .search-section .container-shell { width: min(1480px, calc(100% - 400px)); }
 }
+.print-section[hidden],.gallery-section[hidden] { display: none; }
