@@ -167,11 +167,7 @@
 .app-banner-art { display: flex; align-items: center; gap: 30px; height: 160px; }
 .welcome { font-size: 12px; line-height: 1.7; }
 .welcome strong { display: block; font-family: var(--font-display); font-size: 29px; font-weight: 800; }
-.store-badge { height: 45px; padding: 6px 12px; gap: 9px; border-radius: 6px; }
-.store-badge svg { width: 23px; height: 23px; }
-.store-badge span { text-align: left; }
-.store-badge small { display: block; font-size: 8px; line-height: 1.15; }
-.store-badge strong { display: block; font-size: 17px; line-height: 1.3; font-weight: 500; }
+.store-badge-img { height: 45px; width: auto; display: block; border-radius: 6px; }
 .phone { width: 215px; height: 320px; border: 6px solid var(--primary); border-radius: 30px; background: var(--background); position: relative; box-shadow: var(--shadow-soft); overflow: hidden; }
 .phone-notch { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); width: 95px; height: 16px; background: var(--primary); border-radius: 0 0 12px 12px; }
 .phone-screen { height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 22px; }
@@ -262,7 +258,7 @@
   .amenity { flex-direction: column; align-items: center; padding: 20px 8px; gap: 12px; text-align: center; } .amenity small { font-size: 9px; }
   .why-section { padding: 32px 0; } .why-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .reason { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 19px 12px; gap: 10px; } .reason h3 { font-size: 12px; } .reason p { font-size: 10px; line-height: 1.7; } .icon-tile { width: 40px; height: 40px; }
   .promo-section { padding: 32px 0; } .travel-slide { height: 325px; } .travel-slide img { object-position: 62% center; } .travel-slide::after { background: linear-gradient(90deg,var(--overlay),transparent); } .travel-copy { padding: 22px; } .travel-copy h2 { font-size: 29px; max-width: 220px; } .travel-copy p { font-size: 11px; }
-  .app-banner { height: 190px; padding: 22px; margin-top: 16px; } .app-banner h3 { font-size: 20px; max-width: 195px; } .app-banner .banner-eyebrow { font-size: 8px; } .welcome { display: none; } .app-banner-art { width: 85px; margin-left: -10px; } .phone-small { width: 106px; height: 210px; }
+  .app-banner { height: 176px; padding: 22px; margin-top: 16px; } .app-banner h3 { font-size: 20px; max-width: 195px; } .app-banner .banner-eyebrow { font-size: 8px; } .welcome { display: none; } .app-banner-art { display: none; } .store-row { gap: 10px; } .store-badge-img { height: 40px; }
   .about-section { padding: 32px 0; } .gallery-section { padding: 0 0 32px; } .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .print-section { padding: 0 0 32px; } .print-card { padding: 20px 16px; } .print-card h2 { font-size: 20px; } .print-fields { grid-template-columns: 1fr; gap: 12px; } .print-actions { justify-content: stretch; } .print-actions button { width: 100%; }
   .routes-section { padding: 0 0 32px; } .routes-heading { grid-template-columns: 1fr; gap: 0; } .routes-heading .section-head { margin-bottom: 15px; } .route-search { margin-bottom: 18px; }
   .routes-list { grid-template-columns: 1fr 1fr; gap: 9px; max-height: 300px; } .route-chip { font-size: 8px; height: 35px; padding-inline: 8px; gap: 4px; } .route-chip svg { width: 11px; height: 11px; } .route-arrow { margin: 0; } .routes-more { margin-top: 13px; }
