@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { Brand, Travler, Phone, StoreBadge } from '@/components/buscar/brand';
+import { AccountDialog } from '@/components/buscar/account-dialog';
 import { DateField } from '@/components/buscar/date-field';
 import { destinations, routes, faqs, filterRoutes, nairobiDate } from '@/lib/buscar';
 import coast from '@/assets/buscar-banner.png.asset.json';
@@ -84,12 +85,13 @@ function Index() {
   const visible = expanded || query ? filtered : filtered.slice(0,16);
   const chooseRoute = (origin:string,destination:string) => {setFrom(origin);setTo(destination);scrollToSection('search');};
   const navigate = (id:string) => {setMenuOpen(false);scrollToSection(id);};
+  const [accountOpen,setAccountOpen] = useState(false);
   const details = modal ? modalDetails[modal] : undefined;
   const navigation = [
     {label:'Home',icon:Home,action:() => navigate('search'),active:true},
     {label:'Print Ticket',icon:Printer,action:() => navigate('print-ticket'),active:false},
     {label:'Help',icon:CircleHelp,action:() => navigate('faq'),active:false},
-    {label:'Account',icon:UserRound,action:() => setModal('account'),active:false},
+    {label:'Account',icon:UserRound,action:() => setAccountOpen(true),active:false},
   ];
   return <>
     <Toaster position="top-center" richColors/>
@@ -113,6 +115,7 @@ function Index() {
     <footer id="contact" className="site-footer"><div className="container-shell"><div className="footer-top"><div className="voltic">VOLTIC<small>POWERED BY VOLTIC</small></div><nav className="footer-links" aria-label="Footer">{[['about','About'],['print-ticket','Print Ticket']].map(([id,label]) => <Button key={id} variant="ghost" onClick={() => navigate(id ?? 'about')}>{label}</Button>)}{[['contact','Get In Touch'],['terms','Terms'],['privacy','Privacy Policy']].map(([key,label]) => <Button key={key} variant="ghost" onClick={() => setModal(key ?? 'contact')}>{label}</Button>)}</nav><div className="socials"><Button variant="ghost" size="icon" aria-label="Facebook" onClick={() => setModal('social')}><Facebook/></Button><Button variant="ghost" size="icon" aria-label="X" onClick={() => setModal('social')}><span>𝕏</span></Button><Button variant="ghost" size="icon" aria-label="LinkedIn" onClick={() => setModal('social')}><Linkedin/></Button></div></div><p className="copyright">© 2026 Buscar Bus Service. All rights reserved.<br/>Online booking technology powered by Travler &amp; Voltic.</p><details className="footer-directory"><summary>BUSCAR BUS ROUTES DIRECTORY<ChevronDown/></summary><div className="footer-route-list">{routes.map(([origin,destination]) => <Button key={`${origin}-${destination}`} variant="ghost" onClick={() => chooseRoute(origin,destination)}>{origin} – {destination}</Button>)}</div></details></div></footer>
     <nav className="mobile-nav" aria-label="Mobile navigation">{navigation.map(item => <Button key={item.label} variant="ghost" className={item.active ? 'active' : ''} onClick={item.action}><item.icon/>{item.label}</Button>)}</nav>
     <Button className="chat-button" size="icon" aria-label="Chat with BUSCAR" title="Chat with BUSCAR" onClick={() => setModal('contact')}><MessageCircle/><span className="chat-dot"/></Button>
+    <AccountDialog open={accountOpen} onOpenChange={setAccountOpen} onGuest={() => navigate('search')}/>
     <Dialog open={Boolean(details)} onOpenChange={open => {if(!open)setModal(null);}}><DialogContent className="preview-dialog"><div className="dialog-icon">{modal === 'app' ? <Smartphone/> : <MessageCircle/>}</div><DialogTitle>{details?.title}</DialogTitle><DialogDescription>{details?.description}</DialogDescription><p>{details?.text}</p><span className="preview-label">Coming soon</span><Button onClick={() => {setModal(null);navigate('faq');}}>View travel FAQs<ArrowRight/></Button></DialogContent></Dialog>
   </>;
 }
