@@ -333,3 +333,18 @@
   .wide-hero + .search-section .container-shell { width: min(1480px, calc(100% - 400px)); }
 }
 .print-section[hidden],.gallery-section[hidden] { display: none; }
+.results-page { min-height: 100vh; background: var(--background); }
+.results-shell { width: min(1480px, calc(100% - 32px)); margin-inline: auto; }
+.results-bar { background: var(--primary); color: var(--primary-foreground); }
+.results-bar-inner { display: flex; align-items: center; gap: 12px; min-height: 56px; padding-left: 12px; }
+.results-bar strong { display: block; font-size: 14px; } .results-bar small { font-size: 13px; opacity: .85; }
+.results-back { color: inherit; display: grid; place-items: center; } .results-back svg { width: 18px; }
+.results-bus { width: 32px; height: 32px; border-radius: 6px; background: var(--muted-foreground); display: grid; place-items: center; } .results-bus svg { width: 18px; }
+.results-filters { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
+.results-modify { background: var(--primary); color: var(--primary-foreground); border-radius: 999px; padding: 10px 12px; font-size: 15px; }
+.results-chip { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--background); padding: 4px 10px 4px 4px; font-size: 15px; font-weight: 600; color: var(--foreground); }
+.results-chip span { width: 30px; height: 30px; border-radius: 6px; background: var(--muted); display: grid; place-items: center; } .results-chip svg { width: 16px; height: 16px; }
+.results-meta { display: flex; justify-content: space-between; padding: 12px; font-size: 15px; color: var(--muted-foreground); }
+.results-empty { text-align: center; padding: 50px 16px; color: var(--muted-foreground); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.results-empty > svg { width: 42px; height: 42px; } .results-empty h1 { font-family: var(--font-sans); font-size: 24px; font-weight: 500; margin: 8px 0 0; } .results-empty p { margin: 0 0 12px; color: var(--foreground); }
+.results-retry { border: 1px solid var(--border); border-radius: 4px; padding: 10px 12px; color: var(--success, var(--brand)); }
