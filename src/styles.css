@@ -356,6 +356,32 @@
 .results-empty { text-align: center; padding: 50px 16px; color: var(--muted-foreground); display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .results-empty > svg { width: 42px; height: 42px; } .results-empty h1 { font-family: var(--font-sans); font-size: 24px; font-weight: 500; margin: 8px 0 0; } .results-empty p { margin: 0 0 12px; color: var(--foreground); }
 .results-retry { border: 1px solid var(--border); border-radius: 4px; padding: 10px 12px; color: var(--success, var(--brand)); }
+.results-filters { padding-block: 16px; }
+.results-meta h1 { margin: 0; font-size: 16px; font-family: var(--font-sans); font-weight: 600; }
+.bus-results { display: grid; gap: 16px; padding-bottom: 32px; }
+.bus-result { display: grid; grid-template-columns: 160px minmax(0,1fr) 220px; gap: 24px; align-items: center; border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.bus-result > img { width: 160px; height: 110px; object-fit: cover; border-radius: 4px; }
+.bus-result-details { min-width: 0; }
+.bus-result h2 { font-size: 18px; margin: 0 0 8px; }
+.bus-result p { margin: 0 0 6px; overflow-wrap: anywhere; }
+.bus-result small { color: var(--muted-foreground); }
+.bus-available { display: block; color: var(--mint-ink); font-size: 13px; font-weight: 600; margin-top: 10px; }
+.bus-result-action { display: grid; gap: 12px; }
+.booking-dialog { width: calc(100% - 24px); max-height: calc(100dvh - 24px); overflow-y: auto; border-radius: 8px; }
+.booking-request, .booking-request label { display: grid; gap: 8px; }
+.booking-request { gap: 16px; }
+.booking-request-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.booking-request label { font-size: 13px; font-weight: 600; min-width: 0; }
+.booking-request input, .booking-request textarea { width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: 4px; background: var(--background); color: var(--foreground); padding: 10px; font: inherit; font-size: 16px; }
+.booking-request input:focus-visible, .booking-request textarea:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.booking-confirmation-note { color: var(--muted-foreground); font-size: 13px; margin: 0; }
+@media (max-width: 640px) {
+  .bus-result { grid-template-columns: 96px minmax(0,1fr); gap: 14px; padding: 16px; }
+  .bus-result > img { width: 96px; height: 96px; }
+  .bus-result h2 { font-size: 16px; }
+  .bus-result-action { grid-column: 1 / -1; }
+}
+@media (max-width: 360px) { .booking-request-grid { grid-template-columns: 1fr; } }
 
 .img-tile { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
 .img-tile img { width: 100%; height: 100%; object-fit: cover; }
