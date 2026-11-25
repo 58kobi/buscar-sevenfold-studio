@@ -1,4 +1,4 @@
-import logo from '@/assets/buscar-logo-v2.png.asset.json';
+import logo from '@/assets/buscar-logo-v3.png.asset.json';
 import travler from '@/assets/travler-logo-v2.png.asset.json';
 import playBadge from '@/assets/google-play-badge.png.asset.json';
 import appStoreBadge from '@/assets/app-store-badge.svg.asset.json';
