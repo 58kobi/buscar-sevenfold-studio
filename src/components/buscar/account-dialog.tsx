@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Eye, EyeOff, Lock, CircleCheck } from 'lucide-react';
-import logo from '@/assets/buscar-logo-hd.png.asset.json';
+import logo from '@/assets/buscar-logo-v2.png.asset.json';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 

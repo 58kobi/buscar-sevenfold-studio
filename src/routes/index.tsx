@@ -12,7 +12,17 @@ import hero2 from '@/assets/buscar-hero-2.jpg.asset.json';
 import { AccountDialog } from '@/components/buscar/account-dialog';
 import { DateField } from '@/components/buscar/date-field';
 import { destinations, routes, faqs, filterRoutes, nairobiDate } from '@/lib/buscar';
-import coast from '@/assets/buscar-banner.png.asset.json';
+import coast from '@/assets/buscar-mombasa-v2.jpg.asset.json';
+import amen0 from '@/assets/amenity-0.png.asset.json';
+import amen1 from '@/assets/amenity-1.png.asset.json';
+import amen2 from '@/assets/amenity-2.png.asset.json';
+import amen3 from '@/assets/amenity-3.png.asset.json';
+import why0 from '@/assets/why-0.png.asset.json';
+import why1 from '@/assets/why-1.png.asset.json';
+import why2 from '@/assets/why-2.png.asset.json';
+import why3 from '@/assets/why-3.png.asset.json';
+import why4 from '@/assets/why-4.png.asset.json';
+import why5 from '@/assets/why-5.png.asset.json';
 import bus1 from '@/assets/gallery-bus-1.jpg.asset.json';
 import bus2 from '@/assets/gallery-bus-2.jpg.asset.json';
 import bus3 from '@/assets/gallery-bus-3.jpg.asset.json';
@@ -39,12 +49,12 @@ function SectionHead({ title, subtitle, icon }: {title:string; subtitle:string; 
   return <div className="section-head"><h2>{icon}{title}</h2><p>{subtitle}</p></div>;
 }
 const reasons = [
-  {title:'Save',text:'Pay less when using our new Mobile App. You can save up to 25% of your Promo Cash balance in a single purchase.',icon:Wallet,tone:''},
-  {title:'Multiple Routes',text:'We cover multiple routes and the widest connectivity in Kenya.',icon:RouteIcon,tone:'tone-blue'},
-  {title:'Earn Credits',text:'Receive more credit during promotional periods which will be added into your Promo Cash account.',icon:Coins,tone:'tone-mint'},
-  {title:'Parcel Delivery',text:'We Deliver parcels in all major towns in the country.',icon:Package,tone:'tone-gold'},
-  {title:'Comfortable Buses',text:'Settle in and enjoy a comfortable journey, wherever you’re headed.',icon:BusFront,tone:'tone-blue'},
-  {title:'Pickup Points',text:'Find a convenient boarding point along your chosen route.',icon:MapPin,tone:''},
+  {img:why0.url,title:'Save',text:'Pay less when using our new Mobile App. You can save up to 25% of your Promo Cash balance in a single purchase.',icon:Wallet,tone:''},
+  {img:why1.url,title:'Multiple Routes',text:'We cover multiple routes and the widest connectivity in Kenya.',icon:RouteIcon,tone:'tone-blue'},
+  {img:why2.url,title:'Earn Credits',text:'Receive more credit during promotional periods which will be added into your Promo Cash account.',icon:Coins,tone:'tone-mint'},
+  {img:why3.url,title:'Parcel Delivery',text:'We Deliver parcels in all major towns in the country.',icon:Package,tone:'tone-gold'},
+  {img:why4.url,title:'Fleet',text:'Our Fleet has VIP Treatment, WiFi onboard Power Outlets and Extra Legroom',icon:BusFront,tone:'tone-blue'},
+  {img:why5.url,title:'Pickup Points',text:'Find a convenient boarding point along your chosen route.',icon:MapPin,tone:''},
 ];
 const modalDetails: Record<string, {title:string; description:string; text:string}> = {
   account: {title:'Your BUSCAR account',description:'A little closer to your next journey.',text:'Account sign-in, your journeys, and Promo Cash will be available when online booking launches.'},
@@ -123,8 +133,8 @@ function Index() {
     <main>
       <div className="wide-hero" aria-hidden="true">{[hero1,hero2].map((h,i) => <img key={h.url} src={h.url} alt="" className={i===heroIdx ? 'on' : ''} decoding="async" loading={i===0 ? 'eager' : 'lazy'} fetchPriority={i===0 ? 'high' : 'low'}/>)}</div>
       <section id="search" className="search-section"><div className="container-shell"><div className="intro"><div><div className="section-eyebrow">The journey starts here</div><h1>Bus travel. <span>Made simple.</span></h1><p>Wherever life takes you, travel above the rest.</p></div><div className="intro-note"><ShieldCheck/> Your journey. Our commitment.</div></div><form className="search-card" onSubmit={event => {event.preventDefault();const d=date??new Date();go({to:'/search',search:{from,to,date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}});}}><div className="search-card-top"><div className="trip-options"><label><input type="radio" name="trip" checked={!roundTrip} onChange={() => setRoundTrip(false)}/>One Way</label><label><input type="radio" name="trip" checked={roundTrip} onChange={() => setRoundTrip(true)}/>Round Trip</label></div><div className="booking-powered">Book your next ticket using <Travler/></div></div><div className={`search-fields ${roundTrip ? 'round-trip' : ''}`}><label className="booking-field"><span className="field-label">FROM</span><span className="field-value"><BusFront/><select aria-label="From" value={from} onChange={event => setFrom(event.target.value)}>{destinations.map(city => <option key={city}>{city}</option>)}</select></span></label><label className="booking-field"><span className="field-label">TO</span><span className="field-value"><MapPin/><select aria-label="To" value={to} onChange={event => setTo(event.target.value)}>{destinations.map(city => <option key={city}>{city}</option>)}</select></span></label><DateField label="TRAVEL DATE" date={date} today={today} onChange={setDate}/>{roundTrip && <DateField label="RETURN DATE" date={returnDate} today={today} onChange={setReturnDate}/>}<Button type="submit" className="search-button"><Search/>SEARCH BUS<ArrowRight/></Button></div><div className="clock-line"><Clock3/><span>Current Time: <strong>{clock || '—'}</strong></span><span className="timezone">Africa/Nairobi</span></div></form></div></section>
-      <section id="amenities" className="amenities-section"><div className="container-shell"><SectionHead title="Amenities" subtitle="Recognized and trusted across Kenya"/><div className="amenities-grid">{[{title:'Free Wi-Fi',sub:'Stay connected',icon:Wifi},{title:'Power Outlets',sub:'Stay fully charged',icon:PlugZap},{title:'Extra Legroom',sub:'Room to relax',icon:Armchair},{title:'VIP Seating',sub:'Travel in comfort',icon:Armchair}].map((item,index) => <article key={item.title} className={`amenity${pressedAmenity === index ? ' is-pressed' : ''}`} onTouchStart={() => setPressedAmenity(index)} onTouchEnd={() => setPressedAmenity(null)} onTouchCancel={() => setPressedAmenity(null)}><div className="icon-tile">{index === 3 ? <span className="vip-badge">VIP</span> : <item.icon/>}</div><div><h3>{item.title}</h3><small>{item.sub}</small></div></article>)}</div></div></section>
-      <section id="why-us" className="why-section"><div className="container-shell"><SectionHead title="Why Us" subtitle="More than a ticket. A better way to get there."/><div className="why-grid">{reasons.map(reason => <article key={reason.title} className="reason"><div className={`icon-tile ${reason.tone}`}><reason.icon/></div><div><h3>{reason.title}</h3><p>{reason.text}</p></div></article>)}</div></div></section>
+      <section id="amenities" className="amenities-section"><div className="container-shell"><SectionHead title="Amenities" subtitle="Recognized and trusted across Kenya"/><div className="amenities-grid">{[{title:'Free Wi-Fi',sub:'Stay connected',icon:Wifi},{title:'Power Outlets',sub:'Stay fully charged',icon:PlugZap},{title:'Extra Legroom',sub:'Room to relax',icon:Armchair},{title:'VIP Seating',sub:'Travel in comfort',icon:Armchair}].map((item,index) => <article key={item.title} className={`amenity${pressedAmenity === index ? ' is-pressed' : ''}`} onTouchStart={() => setPressedAmenity(index)} onTouchEnd={() => setPressedAmenity(null)} onTouchCancel={() => setPressedAmenity(null)}><div className="img-tile amen-img"><img src={[amen0,amen1,amen2,amen3][index]!.url} alt="" loading="lazy"/></div><div><h3>{item.title}</h3><small>{item.sub}</small></div></article>)}</div></div></section>
+      <section id="why-us" className="why-section"><div className="container-shell"><SectionHead title="Why Us" subtitle="More than a ticket. A better way to get there."/><div className="why-grid">{reasons.map(reason => <article key={reason.title} className="reason"><div className="img-tile"><img src={reason.img} alt="" loading="lazy"/></div><div><h3>{reason.title}</h3><p>{reason.text}</p></div></article>)}</div></div></section>
       <section id="about" className="about-section" hidden={!shown.includes('about')}><div className="container-shell"><SectionHead title="About Buscar" subtitle="A new way of road travel in East Africa" icon={<BusFront/>}/><div className="why-grid">{[
         {title:'About Buscar',text:'Providing luxurious buses, on-board entertainment, individual seat belts and many others, BUSCAR has truly embraced a new way of road travel in East Africa. With an online booking system for fast and accurate bookings, we give our passengers the luxury to plan their journeys with us.',icon:BusFront,tone:''},
         {title:'The King of Comfort',text:'With spacious and comfortable interiors, our buses offer individual seatbelts, VIP seats, plug points and many other creature comforts making your journey with us a memorable one. Watch a selection of movies on the built-in entertainment system. Our crew are well trained, friendly with customers, and our experienced, disciplined drivers communicate well with passengers.',icon:Armchair,tone:'tone-gold'},
