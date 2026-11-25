@@ -12,6 +12,7 @@ import hero2 from '@/assets/buscar-hero-2.jpg.asset.json';
 import { AccountDialog } from '@/components/buscar/account-dialog';
 import { DateField } from '@/components/buscar/date-field';
 import { destinations, routes, faqs, filterRoutes, nairobiDate } from '@/lib/buscar';
+import { bookingIntentWhatsAppUrl } from '@/lib/booking';
 import coast from '@/assets/buscar-mombasa-v2.jpg.asset.json';
 import amen0 from '@/assets/amenity-0.png.asset.json';
 import amen1 from '@/assets/amenity-1.png.asset.json';
@@ -58,7 +59,7 @@ const reasons = [
 ];
 const supportCards: {title:string; icon:LucideIcon; tone:string; sub?:string; href?:string}[] = [
   {title:'Call Us',icon:PhoneCall,tone:'tone-blue'},
-  {title:'Chat on WhatsApp',icon:MessageCircle,tone:'tone-mint',sub:'0100505916',href:'https://wa.me/254100505916'},
+  {title:'Chat on WhatsApp',icon:MessageCircle,tone:'tone-mint',sub:'0100505916',href:bookingIntentWhatsAppUrl()},
   {title:'Email Us',icon:Mail,tone:'tone-gold'},
   {title:'Availability',icon:Clock3,tone:'tone-violet',sub:'24/7, including weekends & public holidays'},
 ];
@@ -156,7 +157,7 @@ function Index() {
     </main>
     <footer id="contact" className="site-footer"><div className="container-shell"><div className="footer-top"><div className="voltic">VOLTIC<small>POWERED BY VOLTIC</small></div><nav className="footer-links" aria-label="Footer">{[['about','About'],['print-ticket','Print Ticket']].map(([id,label]) => <Button key={id} variant="ghost" onClick={() => navigate(id ?? 'about')}>{label}</Button>)}{[['contact','Get In Touch'],['terms','Terms'],['privacy','Privacy Policy']].map(([key,label]) => <Button key={key} variant="ghost" onClick={() => setModal(key ?? 'contact')}>{label}</Button>)}</nav><div className="socials"><Button variant="ghost" size="icon" aria-label="Facebook" onClick={() => setModal('social')}><Facebook/></Button><Button variant="ghost" size="icon" aria-label="X" onClick={() => setModal('social')}><span>𝕏</span></Button><Button variant="ghost" size="icon" aria-label="LinkedIn" onClick={() => setModal('social')}><Linkedin/></Button></div></div><p className="copyright">© 2026 Buscar Bus Service. All rights reserved.<br/>Online booking technology powered by Travler &amp; Voltic.</p><details className="footer-directory"><summary>BUSCAR BUS ROUTES DIRECTORY<ChevronDown/></summary><div className="footer-route-list">{routes.map(([origin,destination]) => <Button key={`${origin}-${destination}`} variant="ghost" onClick={() => chooseRoute(origin,destination)}>{origin} – {destination}</Button>)}</div></details></div></footer>
     <nav className="mobile-nav" aria-label="Mobile navigation">{navigation.map(item => <Button key={item.label} variant="ghost" className={item.active ? 'active' : ''} onClick={item.action}><item.icon/>{item.label}</Button>)}</nav>
-    <Button className="chat-button" size="icon" aria-label="Chat with BUSCAR" title="Chat with BUSCAR" onClick={() => setModal('contact')}><MessageCircle/><span className="chat-dot"/></Button>
+    <Button className="chat-button" size="icon" aria-label="Chat with BUSCAR" title="Chat with BUSCAR" onClick={() => window.open(bookingIntentWhatsAppUrl(), '_blank', 'noopener,noreferrer')}><MessageCircle/><span className="chat-dot"/></Button>
     <AccountDialog open={accountOpen} onOpenChange={setAccountOpen} onGuest={() => navigate('search')} onSignedIn={() => {setSignedIn(true);setUserMenu(true);}}/>
     <Dialog open={Boolean(details)} onOpenChange={open => {if(!open)setModal(null);}}><DialogContent className="preview-dialog"><div className="dialog-icon">{modal === 'app' ? <Smartphone/> : <MessageCircle/>}</div><DialogTitle>{details?.title}</DialogTitle><DialogDescription>{details?.description}</DialogDescription><p>{details?.text}</p><span className="preview-label">Coming soon</span><Button onClick={() => {setModal(null);navigate('faq');}}>View travel FAQs<ArrowRight/></Button></DialogContent></Dialog>
   </>;

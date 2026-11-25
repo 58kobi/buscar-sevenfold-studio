@@ -37,6 +37,12 @@ export function bookingWhatsAppUrl(details: BookingDetails) {
   ].join('\n');
   return `https://wa.me/${bookingAgentNumber}?text=${encodeURIComponent(message)}`;
 }
+
+/** Short note used by the site-wide message icon. */
+export const bookingIntentMessage = 'Hello BUSCAR, I want to book.';
+export function bookingIntentWhatsAppUrl() {
+  return `https://wa.me/${bookingAgentNumber}?text=${encodeURIComponent(bookingIntentMessage)}`;
+}
 export const seatRows = 10;
 /** 40-seat layout (rows of 4); exactly 2 free seats per row so ~20 free seats span the whole bus. */
 export function seatAvailability(key: string) {

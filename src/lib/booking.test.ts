@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { routes } from './buscar';
-import { availableBuses, bookingWhatsAppUrl, fareFor, seatAvailability, type BookingDetails } from './booking';
+import { availableBuses, bookingIntentWhatsAppUrl, bookingWhatsAppUrl, fareFor, seatAvailability, type BookingDetails } from './booking';
 
 const details: BookingDetails = {
   from: 'NAIROBI', to: 'MOMBASA', date: '2026-12-03', returnDate: '',
@@ -34,6 +34,11 @@ describe('WhatsApp booking requests', () => {
     const text = new URL(bookingWhatsAppUrl({...details, returnDate: '2026-12-07'})).searchParams.get('text');
     expect(text).toContain('Trip: Round Trip');
     expect(text).toContain('Return date: 2026-12-07');
+  });
+  it('sends the site message icon to WhatsApp with a booking note', () => {
+    const url = new URL(bookingIntentWhatsAppUrl());
+    expect(url.pathname).toBe('/254100505916');
+    expect(url.searchParams.get('text')).toBe('Hello BUSCAR, I want to book.');
   });
   it('adds the poster fare to the WhatsApp text', () => {
     expect(new URL(bookingWhatsAppUrl(details)).searchParams.get('text')).toContain('Fare per passenger: KSh 1,500');
