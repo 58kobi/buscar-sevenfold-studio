@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
-import { bookingWhatsAppUrl, seatAvailability, seatRows, type BusClass } from '@/lib/booking';
+import { bookingWhatsAppUrl, fareFor, seatAvailability, seatRows, type BusClass } from '@/lib/booking';
 
 type Props = { from: string; to: string; date: string; returnDate: string; busClass: BusClass; onClose: () => void };
 
@@ -19,7 +19,7 @@ export function BookingDialog({from, to, date, returnDate, busClass, onClose}: P
   return <Dialog open onOpenChange={open => {if (!open) onClose();}}>
     <DialogContent className="booking-dialog">
       <DialogTitle>Book your journey</DialogTitle>
-      <DialogDescription>{from} → {to} · {busClass}</DialogDescription>
+      <DialogDescription>{from} → {to} · {busClass}{fareFor(from, to, busClass) ? ` · ${fareFor(from, to, busClass)} per passenger` : ''}</DialogDescription>
       <form className="booking-request" onSubmit={event => {
         event.preventDefault();
         if (!name.trim() || !phone.trim()) return;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowRight, BusFront } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BookingDialog } from '@/components/buscar/booking-dialog';
-import { availableBuses, type BusClass } from '@/lib/booking';
+import { availableBuses, fareFor, type BusClass } from '@/lib/booking';
 import busPhoto from '@/assets/gallery-bus-1.jpg.asset.json';
 
 export const Route = createFileRoute('/search')({
@@ -40,7 +40,7 @@ function SearchResults() {
       <div className="bus-results">{buses.map(busClass => <article className="bus-result" key={busClass}>
         <img src={busPhoto.url} alt="BUSCAR coach" decoding="async"/>
         <div className="bus-result-details"><h2>BUSCAR · {busClass}</h2><p>{from} → {to}</p><small>{date}</small><span className="bus-available">Available</span></div>
-        <div className="bus-result-action"><small>Fare &amp; departure confirmed by agent</small><Button onClick={() => setSelected(busClass)}>Book Now<ArrowRight/></Button></div>
+        <div className="bus-result-action">{fareFor(from, to, busClass) ? <strong>{fareFor(from, to, busClass)}</strong> : <small>Fare confirmed by agent</small>}<Button onClick={() => setSelected(busClass)}>Book Now<ArrowRight/></Button></div>
       </article>)}</div>
     </div>
     {selected && <BookingDialog from={from} to={to} date={date} returnDate={returnDate} busClass={selected} onClose={() => setSelected(null)}/>}

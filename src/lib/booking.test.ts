@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { routes } from './buscar';
-import { availableBuses, bookingWhatsAppUrl, seatAvailability, type BookingDetails } from './booking';
+import { availableBuses, bookingWhatsAppUrl, fareFor, seatAvailability, type BookingDetails } from './booking';
 
 const details: BookingDetails = {
   from: 'NAIROBI', to: 'MOMBASA', date: '2026-12-03', returnDate: '',
@@ -34,5 +34,11 @@ describe('WhatsApp booking requests', () => {
     const text = new URL(bookingWhatsAppUrl({...details, returnDate: '2026-12-07'})).searchParams.get('text');
     expect(text).toContain('Trip: Round Trip');
     expect(text).toContain('Return date: 2026-12-07');
+  });
+  it('adds the poster fare to the WhatsApp text', () => {
+    expect(new URL(bookingWhatsAppUrl(details)).searchParams.get('text')).toContain('Fare per passenger: KSh 1,500');
+    expect(fareFor('NAIROBI', 'KAMPALA', 'VIP')).toBe('KSh 5,000');
+    expect(fareFor('NAIROBI', 'KAMPALA', 'Normal')).toBe('KSh 3,500');
+    expect(fareFor('SIAYA', 'NAIROBI', 'VIP')).toBeNull();
   });
 });

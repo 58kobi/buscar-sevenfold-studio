@@ -30,6 +30,7 @@ export function bookingWhatsAppUrl(details: BookingDetails) {
     ...(details.returnDate ? [`Return date: ${details.returnDate}`] : []),
     `Bus class: ${details.busClass}`,
     `Passengers: ${details.passengers}`,
+    ...(fareFor(details.from, details.to, details.busClass) ? [`Fare per passenger: ${fareFor(details.from, details.to, details.busClass)}`] : []),
     ...(details.boarding.trim() ? [`Boarding: ${details.boarding.trim()}`] : []),
     ...(details.seats.length ? [`Preferred seats: ${details.seats.join(', ')}`] : []),
     'Please confirm the departure time, seats, fare and payment instructions.',
@@ -48,4 +49,19 @@ export function seatAvailability(key: string) {
     for (const c of cols) free.add(r * 4 + c + 1);
   }
   return free;
+}
+
+/** Fares in KSh from the official BUSCAR fares poster. */
+const fares: Record<string, string> = {
+  'NAIROBI-KAMPALA': '3,500', 'KAMPALA-NAIROBI': '2,600–4,600 (depending on seat class)',
+  'NAIROBI-MOMBASA': '1,500', 'MOMBASA-NAIROBI': '2,500', 'NAIROBI-KISUMU': '1,700',
+  'NAIROBI-ELDORET': '1,500', 'NAIROBI-NAKURU': '1,000', 'NAIROBI-MALINDI': '3,000',
+  'NAIROBI-KILIFI': '2,300', 'NAIROBI-LAMU': '2,300', 'MOMBASA-MALINDI': '1,500',
+  'MOMBASA-GARISSA': '1,500', 'ELDORET-KAMPALA': '3,000', 'NAKURU-KAMPALA': '3,500',
+};
+export function fareFor(from: string, to: string, busClass: BusClass) {
+  const key = `${from.trim().toUpperCase()}-${to.trim().toUpperCase()}`;
+  if (busClass === 'VIP' && key === 'NAIROBI-KAMPALA') return 'KSh 5,000';
+  const f = fares[key];
+  return f ? `KSh ${f}` : null;
 }
