@@ -137,6 +137,10 @@
 .print-field input { height: 46px; border: 1px solid var(--border); border-radius: 6px; background: var(--background); padding: 0 14px; font-size: 13px; font-weight: 400; width: 100%; }
 .print-field input::placeholder { color: var(--muted-foreground); }
 .print-actions { display: flex; justify-content: flex-end; margin-top: 16px; }
+.gallery-section { padding: 0 0 48px; }
+.gallery-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.gallery-item { margin: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.gallery-item img { width: 100%; height: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
 .promo-section { padding: 48px 0; }
 .carousel-viewport { overflow: hidden; border-radius: 8px; }
 .carousel-track { display: flex; }
@@ -259,7 +263,7 @@
   .why-section { padding: 32px 0; } .why-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .reason { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 19px 12px; gap: 10px; } .reason h3 { font-size: 12px; } .reason p { font-size: 10px; line-height: 1.7; } .icon-tile { width: 40px; height: 40px; }
   .promo-section { padding: 32px 0; } .travel-slide { height: 325px; } .travel-slide img { object-position: 62% center; } .travel-slide::after { background: linear-gradient(90deg,var(--overlay),transparent); } .travel-copy { padding: 22px; } .travel-copy h2 { font-size: 29px; max-width: 220px; } .travel-copy p { font-size: 11px; }
   .app-banner { height: 190px; padding: 22px; margin-top: 16px; } .app-banner h3 { font-size: 20px; max-width: 195px; } .app-banner .banner-eyebrow { font-size: 8px; } .welcome { display: none; } .app-banner-art { width: 85px; margin-left: -10px; } .phone-small { width: 106px; height: 210px; }
-  .about-section { padding: 32px 0; } .print-section { padding: 0 0 32px; } .print-card { padding: 20px 16px; } .print-card h2 { font-size: 20px; } .print-fields { grid-template-columns: 1fr; gap: 12px; } .print-actions { justify-content: stretch; } .print-actions button { width: 100%; }
+  .about-section { padding: 32px 0; } .gallery-section { padding: 0 0 32px; } .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .print-section { padding: 0 0 32px; } .print-card { padding: 20px 16px; } .print-card h2 { font-size: 20px; } .print-fields { grid-template-columns: 1fr; gap: 12px; } .print-actions { justify-content: stretch; } .print-actions button { width: 100%; }
   .routes-section { padding: 0 0 32px; } .routes-heading { grid-template-columns: 1fr; gap: 0; } .routes-heading .section-head { margin-bottom: 15px; } .route-search { margin-bottom: 18px; }
   .routes-list { grid-template-columns: 1fr 1fr; gap: 9px; max-height: 300px; } .route-chip { font-size: 8px; height: 35px; padding-inline: 8px; gap: 4px; } .route-chip svg { width: 11px; height: 11px; } .route-arrow { margin: 0; } .routes-more { margin-top: 13px; }
   .faq-section { padding: 32px 0; } .faq-layout { grid-template-columns: 1fr; gap: 0; } .faq-layout .section-head p { max-width: none; } .faq-note { display: none; } .faq-item { padding-inline: 14px; } .faq-item button { font-size: 12px; gap: 10px; text-decoration: none; } .faq-item p { font-size: 11px; }
