@@ -4,10 +4,10 @@ import { Luggage, Play, Apple } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export function Brand({ compact = false }: { compact?: boolean }) {
-  return <div className={`brand ${compact ? 'brand-compact' : ''}`}><img src={logo.url} alt="BUSCAR logo" className="eagle"/><div><span className="wordmark">BUSCAR</span><span className="tagline">EAGLE ABOVE THE REST</span></div></div>;
+  return <div className={`brand ${compact ? 'brand-compact' : ''}`}><img decoding="async" src={logo.url} alt="BUSCAR logo" className="eagle"/><div><span className="wordmark">BUSCAR</span><span className="tagline">EAGLE ABOVE THE REST</span></div></div>;
 }
 export function Travler({ large = false }: { large?: boolean }) {
-  return <img src={travler.url} alt="Travler" className={`travler-img ${large ? 'travler-img-large' : ''}`}/>;
+  return <img decoding="async" src={travler.url} alt="Travler" className={`travler-img ${large ? 'travler-img-large' : ''}`}/>;
 }
 export function StoreBadge({ apple = false, onClick }: { apple?: boolean; onClick: () => void }) {
   const Icon = apple ? Apple : Play;
