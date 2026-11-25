@@ -1,5 +1,5 @@
-import logo from '@/assets/buscar-logo.png.asset.json';
-import travler from '@/assets/travler-logo.png.asset.json';
+import logo from '@/assets/buscar-logo-hd.png.asset.json';
+import travler from '@/assets/travler-logo-hd.png.asset.json';
 import playBadge from '@/assets/google-play-badge.png.asset.json';
 import appStoreBadge from '@/assets/app-store-badge.svg.asset.json';
 import { Luggage } from 'lucide-react';
