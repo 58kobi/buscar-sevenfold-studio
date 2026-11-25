@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application architecture
+- Keep the experience as one index route with reusable frontend controls; booking and account actions are explicitly unavailable until a backend is requested.
+- Keep route data and Nairobi date helpers in a browser-safe module so search controls and the directory share one source of truth.
+- Define visual styling and color roles in the global stylesheet and interactive variants in the shared Button so all sections stay consistent.
