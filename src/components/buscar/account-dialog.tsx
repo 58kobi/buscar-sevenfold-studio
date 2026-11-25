@@ -47,7 +47,7 @@ export function AccountDialog({ open, onOpenChange, onGuest, onSignedIn }: { ope
       <label><span>Name</span><input className="acc-input" required value={name} onChange={e => setName(e.target.value)} placeholder="Enter your name" maxLength={100}/></label>
       <div className="acc-row"><label><span>Code</span><CodeSelect required/></label><label className="grow"><span>Phone</span><input className="acc-input" type="tel" inputMode="numeric" pattern="[0-9]{9}" required placeholder="Enter your phone number"/></label></div>
       <label><span>Email</span><input className="acc-input" type="email" required maxLength={255} placeholder="Enter your email"/></label>
-      <div className="acc-grid"><label><span>Gender</span><select className="acc-input" required defaultValue=""><option value="" disabled>Select Gender</option><option>Male</option><option>Female</option><option>Prefer not to say</option></select></label><label><span>Date of Birth</span><input className="acc-input" type="date" required/></label>
+      <div className="acc-grid"><label><span>Gender</span><select className="acc-input" required defaultValue=""><option value="" disabled>Select Gender</option><option>Male</option><option>Female</option></select></label><label><span>Date of Birth</span><input className="acc-input" type="date" required/></label>
       <label><span>Password</span><Password id="su-pass" placeholder="Enter password"/></label><label><span>Confirm Password</span><Password id="su-confirm" placeholder="Confirm password"/></label></div>
       <label className="acc-check"><input type="checkbox" required/>I agree to the terms and conditions</label>
       <Button type="submit" className="acc-primary">Sign up</Button>
