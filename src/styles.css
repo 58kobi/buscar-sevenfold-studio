@@ -398,8 +398,3 @@
 .seat.free { background: oklch(0.62 0.17 145); cursor: pointer; }
 .seat.taken { background: var(--brand); opacity: .85; cursor: not-allowed; }
 .seat.picked { background: var(--foreground); }
-
-/* Smooth first paint: content eases in instead of popping, photos show a soft placeholder while loading */
-@keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
-main { animation: page-in .45s ease-out; }
-.gallery-item, .bus-result > img { background-color: var(--muted); }
