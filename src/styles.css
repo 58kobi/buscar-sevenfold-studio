@@ -141,6 +141,9 @@
 .support-card { background: var(--secondary); border: 1px solid var(--border); border-radius: 8px; padding: 22px; display: grid; gap: 12px; justify-items: start; align-content: start; min-height: 150px; }
 .support-card h3 { margin: 0; font-size: 14px; font-weight: 700; }
 .support-card small { font-size: 11px; line-height: 1.6; color: var(--muted-foreground); margin: 0; }
+.support-card a { color: inherit; text-decoration: none; max-width: 100%; }
+.support-card a:hover small { color: var(--brand); }
+.support-card small { display: block; overflow-wrap: anywhere; }
 .support-blank { width: 100%; height: 24px; border: 1px dashed var(--border); border-radius: 5px; background: var(--background); }
 .about-section { padding: 48px 0; }
 .print-section { padding: 0 0 48px; }
@@ -274,7 +277,7 @@
   .promo-section { padding: 32px 0; } .travel-slide { height: 325px; } .travel-slide img { object-position: 62% center; } .travel-slide::after { background: linear-gradient(90deg,var(--overlay),transparent); } .travel-copy { padding: 22px; } .travel-copy h2 { font-size: 29px; max-width: 220px; } .travel-copy p { font-size: 11px; }
   .app-banner { height: 176px; padding: 22px; margin-top: 16px; } .app-banner h3 { font-size: 20px; max-width: 195px; } .app-banner .banner-eyebrow { font-size: 8px; } .welcome { display: none; } .app-banner-art { display: none; } .store-row { gap: 10px; } .store-badge-img { height: 40px; }
   .about-section { padding: 32px 0; } .gallery-section { padding: 0 0 32px; } .gallery-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .print-section { padding: 0 0 32px; } .print-card { padding: 20px 16px; } .print-card h2 { font-size: 20px; } .print-fields { grid-template-columns: 1fr; gap: 12px; } .print-actions { justify-content: stretch; } .print-actions button { width: 100%; }
-  .support-section { padding: 32px 0; } .support-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .support-card { padding: 18px; gap: 10px; min-height: 132px; } .support-card h3 { font-size: 12px; } .support-card small { font-size: 10px; }
+  .support-section { padding: 32px 0; } .support-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .support-card { padding: 18px; gap: 10px; min-height: 132px; } .support-card h3 { font-size: 12px; } .support-card small { font-size: 10px; } .support-card.is-wide { grid-column: 1 / -1; }
   .routes-section { padding: 0 0 32px; } .routes-heading { grid-template-columns: 1fr; gap: 0; } .routes-heading .section-head { margin-bottom: 15px; } .route-search { margin-bottom: 18px; }
   .routes-list { grid-template-columns: 1fr 1fr; gap: 9px; max-height: 300px; } .route-chip { font-size: 8px; height: 35px; padding-inline: 8px; gap: 4px; } .route-chip svg { width: 11px; height: 11px; } .route-arrow { margin: 0; } .routes-more { margin-top: 13px; }
   .faq-section { padding: 32px 0; } .faq-layout { grid-template-columns: 1fr; gap: 0; } .faq-layout .section-head p { max-width: none; } .faq-note { display: none; } .faq-item { padding-inline: 14px; } .faq-item button { font-size: 12px; gap: 10px; text-decoration: none; } .faq-item p { font-size: 11px; }
