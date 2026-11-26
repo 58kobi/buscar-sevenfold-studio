@@ -31,7 +31,7 @@ use the editor.
 
 ## Application architecture
 - Keep the home experience on the index route and bus results on the search route; booking requests use a frontend form and WhatsApp deep link, not an API send or payment capture, so no backend is required.
-- Keep bus options and WhatsApp request formatting in a browser-safe booking module; use only fares from the user's fares poster (fare table in the booking module); do not invent other fares, departure schedules, or confirmed seat reservations without a live source.
+- Keep bus options and WhatsApp request formatting in a browser-safe booking module; price every search result by seat class from the booking module's class fare table, and carry that same price into the booking form and the WhatsApp note so the customer never sees two figures; do not invent other fares, departure schedules, or confirmed seat reservations without a live source.
 - Keep route data and Nairobi date helpers in a browser-safe module so search controls and the directory share one source of truth.
 - Define visual styling and color roles in the global stylesheet and interactive variants in the shared Button so all sections stay consistent.
 

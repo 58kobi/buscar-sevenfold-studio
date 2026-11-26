@@ -57,17 +57,18 @@ export function seatAvailability(key: string) {
   return free;
 }
 
-/** Fares in KSh from the official BUSCAR fares poster. */
+/** Poster fares that price a specific seat class, in KSh. */
 const fares: Record<string, string> = {
-  'NAIROBI-KAMPALA': '3,500', 'KAMPALA-NAIROBI': '2,600–4,600 (depending on seat class)',
-  'NAIROBI-MOMBASA': '1,500', 'MOMBASA-NAIROBI': '2,500', 'NAIROBI-KISUMU': '1,700',
-  'NAIROBI-ELDORET': '1,500', 'NAIROBI-NAKURU': '1,000', 'NAIROBI-MALINDI': '3,000',
-  'NAIROBI-KILIFI': '2,300', 'NAIROBI-LAMU': '2,300', 'MOMBASA-MALINDI': '1,500',
-  'MOMBASA-GARISSA': '1,500', 'ELDORET-KAMPALA': '3,000', 'NAKURU-KAMPALA': '3,500',
+  'KAMPALA-NAIROBI': '2,600–4,600 (depending on seat class)',
 };
+/** Per-class fares in KSh shown on search results and carried into the booking. */
+const classFares: Record<BusClass, string> = { Normal: '1,500', Business: '2,500', VIP: '3,500' };
+export function classFare(busClass: BusClass) {
+  return `KSh ${classFares[busClass]}`;
+}
 export function fareFor(from: string, to: string, busClass: BusClass) {
   const key = `${from.trim().toUpperCase()}-${to.trim().toUpperCase()}`;
   if (busClass === 'VIP' && key === 'NAIROBI-KAMPALA') return 'KSh 5,000';
-  const f = fares[key];
-  return f ? `KSh ${f}` : null;
+  if (key === 'KAMPALA-NAIROBI') return `KSh ${fares[key]}`;
+  return classFare(busClass);
 }

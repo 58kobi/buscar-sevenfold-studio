@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { routes } from './buscar';
-import { availableBuses, bookingIntentWhatsAppUrl, bookingWhatsAppUrl, fareFor, seatAvailability, type BookingDetails } from './booking';
+import { availableBuses, bookingIntentWhatsAppUrl, bookingWhatsAppUrl, classFare, fareFor, seatAvailability, type BookingDetails } from './booking';
 
 const details: BookingDetails = {
   from: 'NAIROBI', to: 'MOMBASA', date: '2026-12-03', returnDate: '',
@@ -40,10 +40,18 @@ describe('WhatsApp booking requests', () => {
     expect(url.pathname).toBe('/254100505916');
     expect(url.searchParams.get('text')).toBe('Hello BUSCAR, I want to book.');
   });
-  it('adds the poster fare to the WhatsApp text', () => {
-    expect(new URL(bookingWhatsAppUrl(details)).searchParams.get('text')).toContain('Fare per passenger: KSh 1,500');
+  it('sends the price the customer saw on the results page', () => {
+    expect(new URL(bookingWhatsAppUrl(details)).searchParams.get('text')).toContain('Fare per passenger: KSh 3,500');
+    expect(fareFor('NAIROBI', 'MOMBASA', 'Business')).toBe('KSh 2,500');
+    expect(fareFor('SIAYA', 'NAIROBI', 'VIP')).toBe('KSh 3,500');
+  });
+  it('keeps the poster figures that price a seat class', () => {
     expect(fareFor('NAIROBI', 'KAMPALA', 'VIP')).toBe('KSh 5,000');
-    expect(fareFor('NAIROBI', 'KAMPALA', 'Normal')).toBe('KSh 3,500');
-    expect(fareFor('SIAYA', 'NAIROBI', 'VIP')).toBeNull();
+    expect(fareFor('KAMPALA', 'NAIROBI', 'Business')).toBe('KSh 2,600–4,600 (depending on seat class)');
+  });
+  it('prices search results at 1,500 Normal, 2,500 Business and 3,500 VIP', () => {
+    expect(classFare('Normal')).toBe('KSh 1,500');
+    expect(classFare('Business')).toBe('KSh 2,500');
+    expect(classFare('VIP')).toBe('KSh 3,500');
   });
 });
