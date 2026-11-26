@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { ArrowRight, ArrowLeft, ArrowUpRight, BusFront, MapPin, Wifi, PlugZap, Armchair, Wallet, Route as RouteIcon, Coins, Package, ShieldCheck, Clock3, Search, ChevronDown, Menu, X, Home, Printer, CircleHelp, UserRound, MessageCircle, Facebook, Linkedin, Smartphone, Headphones, PhoneCall, Mail, type LucideIcon } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { toast, Toaster } from 'sonner';
@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { Brand, Travler, Phone, StoreBadge } from '@/components/buscar/brand';
 import hero1 from '@/assets/buscar-hero-1.jpg.asset.json';
-import hero2 from '@/assets/buscar-hero-2.jpg.asset.json';
+import { AccountMenu, JourneyClock, JourneyHero, SectionMenu } from '@/components/buscar/smooth-controls';
 import { AccountDialog } from '@/components/buscar/account-dialog';
 import { DateField } from '@/components/buscar/date-field';
 import { destinations, routes, faqs, filterRoutes, nairobiDate } from '@/lib/buscar';
@@ -79,26 +79,10 @@ function Index() {
   const [today,setToday] = useState<Date>();
   const [date,setDate] = useState<Date>();
   const [returnDate,setReturnDate] = useState<Date>();
-  const [clock,setClock] = useState('');
   const [query,setQuery] = useState('');
   const [ticketNumber,setTicketNumber] = useState('');
   const [mobileNumber,setMobileNumber] = useState('');
   const [expanded,setExpanded] = useState(false);
-  const [menuOpen,setMenuOpen] = useState(false);
-  const menuPanelRef = useRef<HTMLElement>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (!menuOpen) return;
-    const onPointerDown = (event: PointerEvent) => {
-      const target = event.target as Node;
-      if (menuPanelRef.current?.contains(target) || menuButtonRef.current?.contains(target)) return;
-      setMenuOpen(false);
-    };
-    const onKeyDown = (event: KeyboardEvent) => {if (event.key === 'Escape') setMenuOpen(false);};
-    document.addEventListener('pointerdown', onPointerDown);
-    document.addEventListener('keydown', onKeyDown);
-    return () => {document.removeEventListener('pointerdown', onPointerDown);document.removeEventListener('keydown', onKeyDown);};
-  },[menuOpen]);
   const [modal,setModal] = useState<string | null>(null);
   const [slide,setSlide] = useState(0);
   const [carouselRef,carouselApi] = useEmblaCarousel({loop:true});
@@ -106,8 +90,8 @@ function Index() {
     const now = new Date();
     const localDate = nairobiDate(now);
     setToday(localDate); setDate(localDate);
-    const tick = () => { const current = new Date(); setClock(current.toLocaleTimeString('en-GB',{timeZone:'Africa/Nairobi',hour12:false})); setToday(nairobiDate(current)); };
-    tick(); const interval = window.setInterval(tick,1000); return () => window.clearInterval(interval);
+    const interval = window.setInterval(() => setToday(previous => { const next = nairobiDate(new Date()); return previous?.getTime() === next.getTime() ? previous : next; }), 60000);
+    return () => window.clearInterval(interval);
   },[]);
   useEffect(() => {
     if (!carouselApi) return;
@@ -115,18 +99,16 @@ function Index() {
     carouselApi.on('select',onSelect);
     return () => {carouselApi.off('select',onSelect);};
   },[carouselApi]);
-  const filtered = filterRoutes(query);
+  const filtered = useMemo(() => filterRoutes(query), [query]);
   const visible = expanded || query ? filtered : filtered.slice(0,16);
   const chooseRoute = (origin:string,destination:string) => {setFrom(origin);setTo(destination);scrollToSection('search');};
   const [shown,setShown] = useState<string[]>([]);
-  const navigate = (id:string) => {setMenuOpen(false);if (id==='gallery'||id==='print-ticket'||id==='about'||id==='support') {setShown([id]);setTimeout(() => scrollToSection(id),50);} else {setShown([]);scrollToSection(id);}};
+  const navigate = useCallback((id:string) => {if (id==='gallery'||id==='print-ticket'||id==='about'||id==='support') {setShown([id]);requestAnimationFrame(() => scrollToSection(id));} else {setShown([]);requestAnimationFrame(() => scrollToSection(id));}}, []);
   const [accountOpen,setAccountOpen] = useState(false);
   const [signedIn,setSignedIn] = useState(false);
-  const [userMenu,setUserMenu] = useState(false);
-  const [heroIdx,setHeroIdx] = useState(0);
   const [pressedAmenity,setPressedAmenity] = useState<number | null>(null);
-  useEffect(() => {const t = setInterval(() => setHeroIdx(i => (i+1)%2),5000);return () => clearInterval(t);},[]);
-  const soon = (label:string) => {setUserMenu(false);toast(`${label} is coming soon`);};
+
+  const soon = (label:string) => {toast(`${label} is coming soon`);};
   const details = modal ? modalDetails[modal] : undefined;
   const navigation = [
     {label:'Home',icon:Home,action:() => navigate('search'),active:true},
@@ -136,11 +118,11 @@ function Index() {
   ];
   return <>
     <Toaster position="top-center" richColors/>
-    <header className="site-header"><div className="container-shell header-inner"><Brand/><nav className="desktop-nav" aria-label="Main navigation">{navigation.map(item => <Button key={item.label} variant="ghost" className={item.active ? 'active' : ''} onClick={item.action}>{item.label}</Button>)}</nav><nav className="wide-nav" aria-label="Main navigation">{[['search','Home'],['about','About'],['print-ticket','Print Ticket'],['contact','Contact Us'],['gallery','Gallery']].map(([id,label]) => <button key={id} type="button" onClick={() => navigate(id ?? 'search')}>{label}</button>)}</nav><div className="wide-tools"><span className="flag" aria-label="English">🇬🇧</span><button type="button" className="support" onClick={() => navigate('faq')}><CircleHelp/>Support</button><div className="user-wrap"><button type="button" className="user-btn" aria-label="Account" aria-expanded={userMenu} onClick={() => signedIn ? setUserMenu(!userMenu) : setAccountOpen(true)}><UserRound/></button>{signedIn && userMenu && <div className="user-menu" role="menu">{['Bookings','Wallet','My Account','Change Password'].map(l => <button key={l} type="button" role="menuitem" onClick={() => soon(l)}>{l}</button>)}<hr/><button type="button" role="menuitem" className="logout" onClick={() => {setSignedIn(false);setUserMenu(false);}}>Logout</button></div>}</div></div><div className="header-tools"><select className="language" aria-label="Language and region" defaultValue="ke"><option value="ke">🇰🇪 EN</option><option value="gb">🇬🇧 EN</option></select><Button variant="secondary" size="icon" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} ref={menuButtonRef} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</Button></div></div>{menuOpen && <nav className="menu-panel" ref={menuPanelRef} aria-label="Section navigation">{[['about','About'],['gallery','Gallery'],['print-ticket','Print Ticket'],['support','Support'],['contact','Contact']].map(([id,label]) => <Button key={id} variant="ghost" onClick={() => navigate(id ?? 'search')}>{label}<ArrowUpRight className="ml-auto"/></Button>)}</nav>}</header>
+    <header className="site-header"><div className="container-shell header-inner"><Brand/><nav className="desktop-nav" aria-label="Main navigation">{navigation.map(item => <Button key={item.label} variant="ghost" className={item.active ? 'active' : ''} onClick={item.action}>{item.label}</Button>)}</nav><nav className="wide-nav" aria-label="Main navigation">{[['search','Home'],['about','About'],['print-ticket','Print Ticket'],['contact','Contact Us'],['gallery','Gallery']].map(([id,label]) => <button key={id} type="button" onClick={() => navigate(id ?? 'search')}>{label}</button>)}</nav><div className="wide-tools"><span className="flag" aria-label="English">🇬🇧</span><button type="button" className="support" onClick={() => navigate('faq')}><CircleHelp/>Support</button><AccountMenu signedIn={signedIn} onAccount={() => setAccountOpen(true)} onAction={soon} onSignOut={() => setSignedIn(false)}/></div><div className="header-tools"><select className="language" aria-label="Language and region" defaultValue="ke"><option value="ke">🇰🇪 EN</option><option value="gb">🇬🇧 EN</option></select><SectionMenu onNavigate={navigate}/></div></div></header>
     <main>
-      <div className="wide-hero" aria-hidden="true">{[hero1,hero2].map((h,i) => <img key={h.url} src={h.url} alt="" className={i===heroIdx ? 'on' : ''} decoding="async" loading={i===0 ? 'eager' : 'lazy'} fetchPriority={i===0 ? 'high' : 'low'}/>)}</div>
-      <section id="search" className="search-section"><div className="container-shell"><div className="intro"><div><div className="section-eyebrow">The journey starts here</div><h1>Bus travel. <span>Made simple.</span></h1><p>Wherever life takes you, travel above the rest.</p></div><div className="intro-note"><ShieldCheck/> Your journey. Our commitment.</div></div><form className="search-card" onSubmit={event => {event.preventDefault();const d=date??new Date();const r=roundTrip ? returnDate??d : undefined;go({to:'/search',search:{from,to,date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,returnDate:r ? `${r.getFullYear()}-${String(r.getMonth()+1).padStart(2,'0')}-${String(r.getDate()).padStart(2,'0')}` : ''}});}}><div className="search-card-top"><div className="trip-options"><label><input type="radio" name="trip" checked={!roundTrip} onChange={() => setRoundTrip(false)}/>One Way</label><label><input type="radio" name="trip" checked={roundTrip} onChange={() => setRoundTrip(true)}/>Round Trip</label></div><div className="booking-powered">Book your next ticket using <Travler/></div></div><div className={`search-fields ${roundTrip ? 'round-trip' : ''}`}><label className="booking-field"><span className="field-label">FROM</span><span className="field-value"><BusFront/><select aria-label="From" value={from} onChange={event => setFrom(event.target.value)}>{destinations.map(city => <option key={city}>{city}</option>)}</select></span></label><label className="booking-field"><span className="field-label">TO</span><span className="field-value"><MapPin/><select aria-label="To" value={to} onChange={event => setTo(event.target.value)}>{destinations.map(city => <option key={city}>{city}</option>)}</select></span></label><DateField label="TRAVEL DATE" date={date} today={today} onChange={setDate}/>{roundTrip && <DateField label="RETURN DATE" date={returnDate} today={today} onChange={setReturnDate}/>}<Button type="submit" className="search-button"><Search/>SEARCH BUS<ArrowRight/></Button></div><div className="clock-line"><Clock3/><span>Current Time: <strong>{clock || '—'}</strong></span><span className="timezone">Africa/Nairobi</span></div></form></div></section>
-      <section id="amenities" className="amenities-section"><div className="container-shell"><SectionHead title="Amenities" subtitle="Recognized and trusted across Kenya"/><div className="amenities-grid">{[{title:'Free Wi-Fi',sub:'Stay connected',icon:Wifi},{title:'Power Outlets',sub:'Stay fully charged',icon:PlugZap},{title:'Extra Legroom',sub:'Room to relax',icon:Armchair},{title:'VIP Seating',sub:'Travel in comfort',icon:Armchair}].map((item,index) => <article key={item.title} className={`amenity${pressedAmenity === index ? ' is-pressed' : ''}`} onTouchStart={() => setPressedAmenity(index)} onTouchEnd={() => setPressedAmenity(null)} onTouchCancel={() => setPressedAmenity(null)}><div className="img-tile amen-img"><img src={[amen0,amen1,amen2,amen3][index]!.url} alt="" loading="lazy"/></div><div><h3>{item.title}</h3><small>{item.sub}</small></div></article>)}</div></div></section>
+      <JourneyHero/>
+      <section id="search" className="search-section"><div className="container-shell"><div className="intro"><div><div className="section-eyebrow">The journey starts here</div><h1>Bus travel. <span>Made simple.</span></h1><p>Wherever life takes you, travel above the rest.</p></div><div className="intro-note"><ShieldCheck/> Your journey. Our commitment.</div></div><form className="search-card" onSubmit={event => {event.preventDefault();const d=date??new Date();const r=roundTrip ? returnDate??d : undefined;go({to:'/search',search:{from,to,date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,returnDate:r ? `${r.getFullYear()}-${String(r.getMonth()+1).padStart(2,'0')}-${String(r.getDate()).padStart(2,'0')}` : ''}});}}><div className="search-card-top"><div className="trip-options"><label><input type="radio" name="trip" checked={!roundTrip} onChange={() => setRoundTrip(false)}/>One Way</label><label><input type="radio" name="trip" checked={roundTrip} onChange={() => setRoundTrip(true)}/>Round Trip</label></div><div className="booking-powered">Book your next ticket using <Travler/></div></div><div className={`search-fields ${roundTrip ? 'round-trip' : ''}`}><label className="booking-field"><span className="field-label">FROM</span><span className="field-value"><BusFront/><select aria-label="From" value={from} onChange={event => setFrom(event.target.value)}>{destinations.map(city => <option key={city}>{city}</option>)}</select></span></label><label className="booking-field"><span className="field-label">TO</span><span className="field-value"><MapPin/><select aria-label="To" value={to} onChange={event => setTo(event.target.value)}>{destinations.map(city => <option key={city}>{city}</option>)}</select></span></label><DateField label="TRAVEL DATE" date={date} today={today} onChange={setDate}/><div hidden={!roundTrip} className="return-date-field"><DateField label="RETURN DATE" date={returnDate} today={today} onChange={setReturnDate}/></div><Button type="submit" className="search-button"><Search/>SEARCH BUS<ArrowRight/></Button></div><JourneyClock/></form></div></section>
+      <section id="amenities" className="amenities-section"><div className="container-shell"><SectionHead title="Amenities" subtitle="Recognized and trusted across Kenya"/><div className="amenities-grid">{[{title:'Free Wi-Fi',sub:'Stay connected',icon:Wifi},{title:'Power Outlets',sub:'Stay fully charged',icon:PlugZap},{title:'Extra Legroom',sub:'Room to relax',icon:Armchair},{title:'VIP Seating',sub:'Travel in comfort',icon:Armchair}].map((item,index) => <article key={item.title} className={`amenity${pressedAmenity === index ? ' is-pressed' : ''}`} onTouchStart={() => setPressedAmenity(index)} onTouchEnd={() => setPressedAmenity(null)} onTouchCancel={() => setPressedAmenity(null)}><div className="img-tile amen-img"><img src={[amen0,amen1,amen2,amen3][index]?.url} alt="" loading="lazy"/></div><div><h3>{item.title}</h3><small>{item.sub}</small></div></article>)}</div></div></section>
       <section id="why-us" className="why-section"><div className="container-shell"><SectionHead title="Why Us" subtitle="More than a ticket. A better way to get there."/><div className="why-grid">{reasons.map(reason => <article key={reason.title} className="reason"><div className="img-tile"><img src={reason.img} alt="" loading="lazy"/></div><div><h3>{reason.title}</h3><p>{reason.text}</p></div></article>)}</div></div></section>
       <section id="about" className="about-section" hidden={!shown.includes('about')}><div className="container-shell"><SectionHead title="About Buscar" subtitle="A new way of road travel in East Africa" icon={<BusFront/>}/><div className="why-grid">{[
         {title:'About Buscar',text:'Providing luxurious buses, on-board entertainment, individual seat belts and many others, BUSCAR has truly embraced a new way of road travel in East Africa. With an online booking system for fast and accurate bookings, we give our passengers the luxury to plan their journeys with us.',icon:BusFront,tone:''},
@@ -158,7 +140,7 @@ function Index() {
     <footer id="contact" className="site-footer"><div className="container-shell"><div className="footer-top"><div className="voltic">VOLTIC<small>POWERED BY VOLTIC</small></div><nav className="footer-links" aria-label="Footer">{[['about','About'],['print-ticket','Print Ticket']].map(([id,label]) => <Button key={id} variant="ghost" onClick={() => navigate(id ?? 'about')}>{label}</Button>)}{[['contact','Get In Touch'],['terms','Terms'],['privacy','Privacy Policy']].map(([key,label]) => <Button key={key} variant="ghost" onClick={() => setModal(key ?? 'contact')}>{label}</Button>)}</nav><div className="socials"><Button variant="ghost" size="icon" aria-label="Facebook" onClick={() => setModal('social')}><Facebook/></Button><Button variant="ghost" size="icon" aria-label="X" onClick={() => setModal('social')}><span>𝕏</span></Button><Button variant="ghost" size="icon" aria-label="LinkedIn" onClick={() => setModal('social')}><Linkedin/></Button></div></div><p className="copyright">© 2026 Buscar Bus Service. All rights reserved.<br/>Online booking technology powered by Travler &amp; Voltic.</p><details className="footer-directory"><summary>BUSCAR BUS ROUTES DIRECTORY<ChevronDown/></summary><div className="footer-route-list">{routes.map(([origin,destination]) => <Button key={`${origin}-${destination}`} variant="ghost" onClick={() => chooseRoute(origin,destination)}>{origin} – {destination}</Button>)}</div></details></div></footer>
     <nav className="mobile-nav" aria-label="Mobile navigation">{navigation.map(item => <Button key={item.label} variant="ghost" className={item.active ? 'active' : ''} onClick={item.action}><item.icon/>{item.label}</Button>)}</nav>
     <Button className="chat-button" size="icon" aria-label="Chat with BUSCAR" title="Chat with BUSCAR" onClick={() => window.open(bookingIntentWhatsAppUrl(), '_blank', 'noopener,noreferrer')}><MessageCircle/><span className="chat-dot"/></Button>
-    <AccountDialog open={accountOpen} onOpenChange={setAccountOpen} onGuest={() => navigate('search')} onSignedIn={() => {setSignedIn(true);setUserMenu(true);}}/>
+    <AccountDialog open={accountOpen} onOpenChange={setAccountOpen} onGuest={() => navigate('search')} onSignedIn={() => {setSignedIn(true);}}/>
     <Dialog open={Boolean(details)} onOpenChange={open => {if(!open)setModal(null);}}><DialogContent className="preview-dialog"><div className="dialog-icon">{modal === 'app' ? <Smartphone/> : <MessageCircle/>}</div><DialogTitle>{details?.title}</DialogTitle><DialogDescription>{details?.description}</DialogDescription><p>{details?.text}</p><span className="preview-label">Coming soon</span><Button onClick={() => {setModal(null);navigate('faq');}}>View travel FAQs<ArrowRight/></Button></DialogContent></Dialog>
   </>;
 }

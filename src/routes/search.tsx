@@ -26,6 +26,7 @@ export const Route = createFileRoute('/search')({
 
 function SearchResults() {
   const { from, to, date, returnDate } = Route.useSearch();
+  const [bookingOpen, setBookingOpen] = useState(false);
   const [selected, setSelected] = useState<BusClass | null>(null);
   const buses = availableBuses(from, to);
   return <div className="results-page">
@@ -40,9 +41,9 @@ function SearchResults() {
       <div className="bus-results">{buses.map(busClass => <article className="bus-result" key={busClass}>
         <img src={busPhoto.url} alt="BUSCAR coach" decoding="async"/>
         <div className="bus-result-details"><h2>BUSCAR · {busClass}</h2><p>{from} → {to}</p><small>{date}</small><span className="bus-available">Available</span></div>
-        <div className="bus-result-action">{fareFor(from, to, busClass) ? <strong>{fareFor(from, to, busClass)}</strong> : <small>Fare confirmed by agent</small>}<Button onClick={() => setSelected(busClass)}>Book Now<ArrowRight/></Button></div>
+        <div className="bus-result-action">{fareFor(from, to, busClass) ? <strong>{fareFor(from, to, busClass)}</strong> : <small>Fare confirmed by agent</small>}<Button onClick={() => { setSelected(busClass); setBookingOpen(true); }}>Book Now<ArrowRight/></Button></div>
       </article>)}</div>
     </div>
-    {selected && <BookingDialog from={from} to={to} date={date} returnDate={returnDate} busClass={selected} onClose={() => setSelected(null)}/>}
+    {selected && <BookingDialog key={selected} open={bookingOpen} from={from} to={to} date={date} returnDate={returnDate} busClass={selected} onClose={() => setBookingOpen(false)}/>}
   </div>;
 }

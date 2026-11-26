@@ -4,3 +4,5 @@
 - [x] Verify interactions, mobile layout, and tests.
 - [x] Show available bus options and collect booking details for WhatsApp.
 - [x] Verify booking requests open the assigned WhatsApp number with travel details.
+- [x] Isolate frequent updates and menus, preserve form views, and stabilize image and dialog layout.
+- [x] Test phone and desktop controls and the full WhatsApp booking flow.

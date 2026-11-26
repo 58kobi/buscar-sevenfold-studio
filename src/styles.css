@@ -30,6 +30,7 @@
   --color-ring: var(--brand);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-overlay: var(--overlay);
 }
 :root {
   --radius: 8px;
@@ -60,7 +61,9 @@
 @layer base {
   * { border-color: var(--border); letter-spacing: 0; }
   body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-  html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+  html { scroll-behavior: smooth; scroll-padding-top: 100px; scrollbar-gutter: stable; overflow-x: clip; }
+  [hidden] { display: none !important; }
+  button,a,input,select,summary { touch-action: manipulation; }
   h1,h2,h3 { font-family: var(--font-display); }
   button,a,input,select { -webkit-tap-highlight-color: transparent; }
   button { cursor: pointer; }
@@ -116,7 +119,7 @@
 .section-head p { font-size: 13px; color: var(--muted-foreground); margin: 0; line-height: 1.6; }
 .amenities-section { padding: 16px 0 48px; }
 .amenities-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
-.amenity { display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); border-radius: 8px; padding: 23px; transition: transform 180ms ease, box-shadow 180ms ease; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.amenity { display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); border-radius: 8px; padding: 23px; transition: transform 180ms ease-out; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .amenity:active, .amenity.is-pressed { transform: scale(1.05); box-shadow: 0 8px 22px rgb(0 0 0 / 10%); z-index: 1; }
 @media (hover: hover) { .amenity:hover { transform: scale(1.04); box-shadow: 0 8px 22px rgb(0 0 0 / 10%); } }
 .icon-tile { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 8px; background: var(--brand-soft); color: var(--brand); flex-shrink: 0; }
@@ -398,3 +401,28 @@
 .seat.free { background: oklch(0.62 0.17 145); cursor: pointer; }
 .seat.taken { background: var(--brand); opacity: .85; cursor: not-allowed; }
 .seat.picked { background: var(--foreground); }
+
+/* Stable geometry and local, compositor-only interaction feedback. */
+.section-menu-wrap { position: static; }
+.smooth-menu { opacity: 0; transform: translateY(-6px); pointer-events: none; visibility: hidden; transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 0s 180ms; }
+.smooth-menu[data-open="true"] { opacity: 1; transform: translateY(0); pointer-events: auto; visibility: visible; transition: opacity 180ms ease-out, transform 180ms ease-out; }
+.return-date-field .booking-field { width: 100%; }
+.clock-line strong { display: inline-block; min-width: 8ch; }
+.gallery-item { aspect-ratio: 1; background: var(--secondary); }
+.acc-logo { aspect-ratio: 232 / 217; height: auto; object-fit: contain; }
+.acc-row .grow { min-width: 0; }
+.acc-form input:not([type="checkbox"]), .acc-form select { font-size: 16px; }
+.account-dialog { max-height: calc(100dvh - 24px); overscroll-behavior: contain; }
+.booking-dialog { overscroll-behavior: contain; }
+.seat-map { width: 100%; grid-auto-rows: 44px; }
+.seat-map .seat { min-width: 44px; padding: 0; touch-action: manipulation; transition: transform 150ms ease-out; }
+.seat-map .seat:active:not(:disabled) { transform: scale(.96); }
+.trip-options label, .language, .wide-nav button, .wide-tools button, .menu-panel button, .user-menu button, .results-back, .results-filters button, .route-chip, .footer-links button, .footer-route-list button, .acc-link { min-height: 44px; }
+.header-tools > .section-menu-wrap > button, .user-btn, .socials button, .carousel-arrows button { min-width: 44px; min-height: 44px; }
+.carousel-dots button { position: relative; margin: 18px 8px; }
+.carousel-dots button::before { content: ''; position: absolute; width: 44px; height: 44px; left: 50%; top: 50%; transform: translate(-50%,-50%); }
+.carousel-dots { gap: 16px; }
+.store-badge-img { object-fit: contain; }
+.travler-img { aspect-ratio: 150 / 58; object-fit: contain; }
+button:active:not(:disabled) { opacity: .86; }
+@media (prefers-reduced-motion: reduce) { .smooth-menu { transition: none; } }

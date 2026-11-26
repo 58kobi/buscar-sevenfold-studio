@@ -34,3 +34,5 @@ use the editor.
 - Keep bus options and WhatsApp request formatting in a browser-safe booking module; use only fares from the user's fares poster (fare table in the booking module); do not invent other fares, departure schedules, or confirmed seat reservations without a live source.
 - Keep route data and Nairobi date helpers in a browser-safe module so search controls and the directory share one source of truth.
 - Define visual styling and color roles in the global stylesheet and interactive variants in the shared Button so all sections stay consistent.
+
+- Keep live clock, hero rotation, and dropdown state in isolated controls; retain hidden form views so recurring updates do not repaint the whole home or discard drafts.
